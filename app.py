@@ -34,12 +34,12 @@ def device_info():
 
     # Criar a mensagem com as informações do dispositivo
     message = (
-        f"🌐 **Novo acesso ao site!**\n"
-        f"🖥 **Sistema:** {data.get('platform')}\n"
-        f"🌎 **Idioma:** {data.get('language')}\n"
-        f"📏 **Resolução:** {data.get('screenWidth')}x{data.get('screenHeight')}\n"
-        f"⏰ **Fuso horário:** {data.get('timezone')}\n"
-        f"🕵 **User-Agent:** {data.get('userAgent')}"
+        f"**Acesso detectado ao {data.get('page')}**\n"
+        f"**Sistema:** {data.get('platform')}\n"
+        # f"**Idioma:** {data.get('language')}\n"
+        f"**Resolução:** {data.get('screenWidth')}x{data.get('screenHeight')}\n"
+        # f"**Fuso horário:** {data.get('timezone')}\n"
+        f"**User-Agent:** {data.get('userAgent')}"
     )
 
     # Enviar para o Discord
