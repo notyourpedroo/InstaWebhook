@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import logger
 import os
 import requests
 
@@ -24,6 +25,7 @@ def send_message():
     response = requests.post(DISCORD_WEBHOOK_URL, json=payload)
 
     if response.status_code == 204:
+        logger.info(payload)
         return jsonify({"success": "Mensagem enviada ao Discord"}), 200
     else:
         return jsonify({"error": "Falha ao enviar mensagem", "details": response.text}), 500
