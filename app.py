@@ -1,10 +1,12 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import logger
+import logging
 import os
 import requests
 
+logger = logging.getLogger(__name__)
 app = Flask(__name__)
+
 CORS(app)  # Habilita CORS para todas as origens
 
 DISCORD_WEBHOOK_URL = os.getenv('DISCORD_WEBHOOK_URL')
