@@ -56,7 +56,7 @@ def device_info():
     payload = {"content": message}
 
     # Enviar para o Discord
-    whereami = {data.get('page')}
+    whereami = data.get('page')
     mapping = {
         "index": DISCORD_WEBHOOK_URL_INDEX,
         "login": DISCORD_WEBHOOK_URL_LOGIN,
