@@ -3,7 +3,6 @@ from flask_cors import CORS
 import os
 import requests
 
-logger = logging.getLogger(__name__)
 app = Flask(__name__)
 
 CORS(app)  # Habilita CORS para todas as origens
